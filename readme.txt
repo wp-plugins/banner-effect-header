@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Banner Effect Header ===
 Contributors: banner_effect
 Donate link: http://www.banner-effect.com/
 Tags: header, flash, html5, banner, banner effect, dynamic
