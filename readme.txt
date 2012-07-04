@@ -65,6 +65,7 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 3. You can even set a particular banner for each pages/posts.
 
 == Changelog ==
-
+= 1.1 =
+* Check if 'allow_url_fopen' is enabled. If not, try to use cURL instead.
 = 1.0 =
 * Initial version.

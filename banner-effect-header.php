@@ -27,8 +27,8 @@ License: GPL
 //=============================================================
 // ACTIONS
 //=============================================================
-add_action('wp_footer', 'display_banner');
-add_action( 'admin_menu', 'banner_effect_menu' );
+add_action('wp_footer', 'BE_display_banner');
+add_action( 'admin_menu', 'BE_banner_effect_menu' );
 add_action("save_post",'BE_save_post');
 //add_action('admin_menu', 'BE_myplugin_add_custom_box');
 function BE_myplugin_add_custom_box() {
@@ -67,7 +67,7 @@ function BE_save_post()
 			if($email!="")
 			{
 				$banners = BE_GetBannerArray($email);
-				copy_files($banners[$bid]);
+				BE_copy_files($banners[$bid]);
 				update_post_meta($pid,"BE_Name",$banners[$bid]->name);
 				update_post_meta($pid,"BE_Path",$banners[$bid]->path);
 				update_post_meta($pid,"BE_Width",$banners[$bid]->width);
@@ -128,8 +128,36 @@ class BE_Banner
 
 function BE_GetBannerArray($mail)
 {
-	$lines = file("http://www.banner-effect.com/customer_banners/get_banner_list.php?email=".$mail);
-	return BE_BannerTextToArray($lines);
+	$url = "http://www.banner-effect.com/customer_banners/get_banner_list.php?email=".$mail;
+	//check if we can open files using url
+	$allow_fopen = ini_get("allow_url_fopen");
+	if($allow_fopen=="1")
+	{
+		$lines = file($url);
+		return BE_BannerTextToArray($lines);
+	}
+	else
+	{
+		//try to use curl
+		if(function_exists("curl_init"))
+		{
+			$ch = curl_init();
+			$timeout = 10;
+			curl_setopt ($ch, CURLOPT_URL, $url);
+			curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+			$file_contents = curl_exec($ch);
+			curl_close($ch);
+			
+			$lines =  explode("\n",$file_contents);
+			return BE_BannerTextToArray($lines);
+		}
+		else
+		{
+			print "<font color=red><b>CONFIGURATION PROBLEM:</b>To use this plug-in you have to:<br/>- have 'allow_url_fopen' set to 'ON' on your PHP.ini file<br/>or<br/>- have cURL module activated in your PHP.ini file</font>";
+		}
+	}
+		
 }
 
 function BE_BannerTextToArray($lines)
@@ -166,7 +194,7 @@ function BE_BannerTextToArray($lines)
 //=============================================================
 // FUNCTION DISPLAYING THE BANNER IF NEEDED
 //=============================================================
-function display_banner()
+function BE_display_banner()
 {
 	$p = get_option("BE_Path");
 	$n = get_option("BE_Name");	
@@ -247,12 +275,12 @@ function display_banner()
 //=============================================================
 // FUNCTIONS ADMIN MENU
 //=============================================================
-function banner_effect_menu() {
+function BE_banner_effect_menu() {
 	BE_myplugin_add_custom_box();
-	add_options_page( 'Banner Effect Options', 'Banner Effect Header', 'manage_options', 'BannerEffectOptions', 'banner_effect_options' );
+	add_options_page( 'Banner Effect Options', 'Banner Effect Header', 'manage_options', 'BannerEffectOptions', 'BE_banner_effect_options' );
 }
 
-function banner_effect_options() {
+function BE_banner_effect_options() {
 
     //must check that the user has the required capability 
     if (!current_user_can('manage_options'))
@@ -290,7 +318,7 @@ function banner_effect_options() {
 				$banners = BE_GetBannerArray($opt_val);
 				
 				//copy banner files
-				if(copy_files($banners[$be_current_banner])===false)
+				if(BE_copy_files($banners[$be_current_banner])===false)
 				{
 					print "<div class=\"error\"><p><strong>";
 					$dir = WP_CONTENT_URL.'/banner-effect-banners/';
@@ -383,13 +411,13 @@ Then follow these steps:<br/>
 <th scope="row"><?php _e("Active banner:", 'BannerEffectSettings' ); ?></th><td>
 
 <?PHP
-	radio_banner_ex("-1","None (will use standard WordPress image)","-","-","",$be_current_banner);
+	BE_radio_banner_ex("-1","None (will use standard WordPress image)","-","-","",$be_current_banner);
 	
 	//retrieve list
 	$banners = BE_GetBannerArray($opt_val);
 	for($i=0;$i<count($banners);$i++)
 	{
-		$j = radio_banner($banners[$i],$be_current_banner);
+		$j = BE_radio_banner($banners[$i],$be_current_banner);
 	}
 ?>
 
@@ -412,7 +440,7 @@ Then follow these steps:<br/>
  
 }
 
-function copy_files($banner)
+function BE_copy_files($banner)
 {
 	//check directory
 	$dir = WP_CONTENT_DIR.'/banner-effect-banners/'.$banner->name;
@@ -428,7 +456,7 @@ function copy_files($banner)
 	$problem = false;
 	if($banner->isFlash==1) 
 	{
-		if(copy($banner->path."/".$banner->name.".swf",$dir."/".$banner->name.".swf")==false)
+		if(BE_safecopy($banner->path."/".$banner->name.".swf",$dir."/".$banner->name.".swf")==false)
 		{
 			$problem = true;
 		}
@@ -443,17 +471,17 @@ function copy_files($banner)
 		{
 			chmod($dir."/data",0777);
 		}
-		if(!copy($banner->path."/".$banner->name.".js",$dir."/".$banner->name.".js")) $problem=true;
+		if(!BE_safecopy($banner->path."/".$banner->name.".js",$dir."/".$banner->name.".js")) $problem=true;
 		foreach($banner->assets as $asset)
 		{
 			$asset2 = trim($asset);
-			if(!copy($banner->path."/data/".$asset2,$dir."/data/".$asset2)) $problem=true;
+			if(!BE_safecopy($banner->path."/data/".$asset2,$dir."/data/".$asset2)) $problem=true;
 		}
 	}
 	return !$problem;
 }
 
-function radio_banner($banner,$id_checked)
+function BE_radio_banner($banner,$id_checked)
 {
 	$type = "";
 	if($banner->isFlash==1) $type = "Flash";
@@ -468,11 +496,11 @@ function radio_banner($banner,$id_checked)
 			$type = "Flash and Html5";
 		}
 	}
-	radio_banner_ex($banner->id,$banner->name,$banner->width." x ".$banner->height." pixels",$type,$banner->path."/index.html",$id_checked);
+	BE_radio_banner_ex($banner->id,$banner->name,$banner->width." x ".$banner->height." pixels",$type,$banner->path."/index.html",$id_checked);
 	$number_assets = $t[$i+6];
 }
 
-function radio_banner_ex($id,$title,$dim,$type,$preview,$id_checked)
+function BE_radio_banner_ex($id,$title,$dim,$type,$preview,$id_checked)
 {	
 	print("<table ><tr><td>");
 	print("<input type=\"radio\" name=\"group1\" value=\"$id\" ");
@@ -514,5 +542,38 @@ function BE_check_email($e)
 		return false;
 	}
 return true;	
+}
+
+function BE_safecopy($source,$dest)
+{
+	//check if we can open files using url
+	$allow_fopen = ini_get("allow_url_fopen");
+	if($allow_fopen=="1")
+	{
+		return copy($source,$dest);
+	}
+	else
+	{
+		//try to use curl
+		if(function_exists("curl_init"))
+		{
+			$ch = curl_init();
+			$timeout = 10;
+			curl_setopt ($ch, CURLOPT_URL, $source);
+			curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+			$file_contents = curl_exec($ch);
+			curl_close($ch);
+			$fp = fopen($dest, 'w');
+			fwrite($fp, $file_contents);
+			fclose($fp);
+			return true;
+		}
+		else
+		{
+			print "<font color=red><b>CONFIGURATION PROBLEM:</b>To use this plug-in you have to:<br/>- have 'allow_url_fopen' set to 'ON' on your PHP.ini file<br/>or<br/>- have cURL module activated in your PHP.ini file</font>";
+			return false;
+		}
+	}	
 }
 ?>
