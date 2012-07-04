@@ -352,6 +352,19 @@ function banner_effect_options() {
     
 ?>
 
+<b>Important:</b> To use this plug-in, you have to download and install Banner Effect software ( <a href="http://www.banner-effect.com/download">http://www.banner-effect.com/download</a> ) on your computer - a free version is available.<br/><br/>
+Then follow these steps:<br/>
+<ol>
+<li>Install and start Banner Effect.</li>
+<li>Create the banner you want to use as header</li>
+<li>Then go to menu <b>File/Create Flash/HTML5 banner...</b> a small wizard will open.</li>
+<li>On the Destination tab of the wizard ("Where do you want to save the banner"), choose "On Banner-Effect's Server" and enter your email address.</li>
+<li>Then, finish the wizard to publish the banner.</li>
+<li>Back to Wordpress, go to <b>administration panel, Settings -&gt; Banner Effect Header</b>, enter the same email address and press "Save changes"</li>
+<li>You should see a list with all available banners. Pick one, click "Save changes" again and the banner will be displayed on your Wordpress website.</li>
+<li>You can also set a particular banner for an article or a page: edit the page, and, on "Banner Effect Header" box, select the specific banner you want to use. Then press "Update" to save the change.</li>
+</ol>
+
 <form name="form1" method="post" action="">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 

@@ -25,20 +25,38 @@ This plug-in will copy all necessary files for the banner to your website. In a 
 - You can also set a different banner for particular pages/articles.
 - Quick and lightweight.
 
+*Important:* To use this plug-in, you have to download and install Banner Effect software ( [Banner Effect Free Edition](http://www.banner-effect.com/download/ "click here to download") ) on your computer - a free version is available.
+
 == Installation ==
 
 These are the directions for the install. Be sure to read Directions for Use before using.
 
 1. Upload 'the banner-effect' directory to your plugins directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to Settings -> Banner Effect Header and enter the email you used to publish your banners on Banner-Effect servers.
-4. Then you should see a list of available banner: pick one and it will be displayed as header. 
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Go to Settings -> Banner Effect Header and enter the email you used to publish your banners on Banner-Effect servers.
+1. Then you should see a list of available banner: pick one and it will be displayed as header. 
+
+**Banner Effect Installation**
+
+*Important:* To use this plug-in, you have to download and install Banner Effect software ( [Banner Effect Free Edition](http://www.banner-effect.com/download/ "click here to download") ) on your computer - a free version is available.
+
+Then follow these steps:
+
+1. Install and start Banner Effect.
+1. Create the banner you want to use as header.
+1. Then go to menu *File/Create Flash/HTML5 banner...* a small wizard will open.
+1. On the Destination tab of the wizard ("Where do you want to save the banner"), choose "On Banner-Effect's Server" and enter your email address.
+1. Then, finish the wizard to publish the banner.
+1. Back to Wordpress, go to *administration panel, Settings -> Banner Effect Header*, enter the same email address and press "Save changes"
+1. You should see a list with all available banners. Pick one, click "Save changes" again and the banner will be displayed on your Wordpress website.
+1. You can also set a particular banner for an article or a page: edit the page, and, on "Banner Effect Header" box, select the specific banner you want to use. Then press "Update" to save the change.
+
 
 == Frequently Asked Questions ==
 
 = Do I need to buy something to use this plug-in? =
 
-No, you can use Banner Effect Trial edition to create your banners ( [BannerEffect](http://www.banner-effect.com/download/ "click here to download") ).
+No, you can use Banner Effect Trial edition to create your banners ( [Banner Effect Free Edition](http://www.banner-effect.com/download/ "click here to download") ).
 
 == Screenshots ==
 
