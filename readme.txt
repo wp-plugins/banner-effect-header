@@ -20,6 +20,7 @@ This plug-in will copy all necessary files for the banner to your website. In a 
 **Features:**
 
 - Display HTML5 (Javascript) or FLASH animations automatically (depending if Flash is available or not)
+- Banners will be visible on all devices (Windows/Mac/iPhones/iPads/Android)
 - Copy banners automatically directly from banner-effect repository.
 - Replace default header.
 - You can also set a different banner for particular pages/articles.
