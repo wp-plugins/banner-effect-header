@@ -380,7 +380,7 @@ function BE_banner_effect_options() {
     
 ?>
 
-<b>Important:</b> To use this plug-in, you have to download and install Banner Effect software ( <a href="http://www.banner-effect.com/download">http://www.banner-effect.com/download</a> ) on your computer - a free version is available.<br/><br/>
+<b>Important:</b> To use this plug-in, you have to download and install Banner Effect software ( <a href="http://www.banner-effect.com/download/?utm_source=wp_plugin&utm_medium=plugin&utm_campaign=wordpress">http://www.banner-effect.com/download</a> ) on your computer - a free version is available.<br/><br/>
 Then follow these steps:<br/>
 <ol>
 <li>Install and start Banner Effect.</li>

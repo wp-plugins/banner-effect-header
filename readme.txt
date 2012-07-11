@@ -1,6 +1,6 @@
 === Banner Effect Header ===
 Contributors: banner_effect
-Donate link: http://www.banner-effect.com/
+Donate link: http://www.banner-effect.com/download/?utm_source=wp_plugin&utm_medium=plugin&utm_campaign=wordpress
 Tags: header, flash, html5, banner, banner effect, dynamic
 Requires at least: 2.7
 Tested up to: 3.4.1
@@ -26,7 +26,7 @@ This plug-in will copy all necessary files for the banner to your website. In a 
 - You can also set a different banner for particular pages/articles.
 - Quick and lightweight.
 
-*Important:* To use this plug-in, you have to download and install Banner Effect software ( [Banner Effect Free Edition](http://www.banner-effect.com/download/ "click here to download") ) on your computer - a free version is available.
+*Important:* To use this plug-in, you have to download and install Banner Effect software ( [Banner Effect Free Edition](http://www.banner-effect.com/download/?utm_source=wp_plugin&utm_medium=plugin&utm_campaign=wordpress "click here to download") ) on your computer - a free version is available.
 
 == Installation ==
 
@@ -39,7 +39,7 @@ These are the directions for the install. Be sure to read Directions for Use bef
 
 **Banner Effect Installation**
 
-*Important:* To use this plug-in, you have to download and install Banner Effect software ( [Banner Effect Free Edition](http://www.banner-effect.com/download/ "click here to download") ) on your computer - a free version is available.
+*Important:* To use this plug-in, you have to download and install Banner Effect software ( [Banner Effect Free Edition](http://www.banner-effect.com/download/?utm_source=wp_plugin&utm_medium=plugin&utm_campaign=wordpress "click here to download") ) on your computer - a free version is available.
 
 Then follow these steps:
 
@@ -57,7 +57,7 @@ Then follow these steps:
 
 = Do I need to buy something to use this plug-in? =
 
-No, you can use Banner Effect Trial edition to create your banners ( [Banner Effect Free Edition](http://www.banner-effect.com/download/ "click here to download") ).
+No, you can use Banner Effect Trial edition to create your banners ( [Banner Effect Free Edition](http://www.banner-effect.com/download/?utm_source=wp_plugin&utm_medium=plugin&utm_campaign=wordpress "click here to download") ).
 
 == Screenshots ==
 
