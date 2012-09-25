@@ -69,7 +69,9 @@ function BE_save_post()
 				$banners = BE_GetBannerArray($email);
 				BE_copy_files($banners[$bid]);
 				update_post_meta($pid,"BE_Name",$banners[$bid]->name);
-				update_post_meta($pid,"BE_Path",$banners[$bid]->path);
+				//update_post_meta($pid,"BE_Path",$banners[$bid]->path);
+				$dir = WP_CONTENT_URL.'/banner-effect-banners/';
+				update_post_meta($pid,"BE_Path",$dir."/".$banners[$bid]->name);
 				update_post_meta($pid,"BE_Width",$banners[$bid]->width);
 				update_post_meta($pid,"BE_Height",$banners[$bid]->height);
 				update_post_meta($pid,"BE_IsFlash",$banners[$bid]->isFlash);
