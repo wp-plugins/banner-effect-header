@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.0.0
+Version: 1.2.0
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
@@ -202,6 +202,7 @@ function BE_display_banner()
 	$h = get_option("BE_Height");
 	$flash = get_option("BE_IsFlash");
 	$html = get_option("BE_IsHtml5");
+	$divid = get_option("banner_effect_divid");
 	
 	//check if we have specific banner for this post.
 	global $post;
@@ -226,16 +227,8 @@ function BE_display_banner()
 		print "src=\"$p/$n.js\">";
 		print "</script>";
 	}
-
-	print("<script type=\"text/javascript\">");
-	print("var all = document.getElementsByTagName(\"img\");");
-	print("for (var i=0, max=all.length; i < max; i++) {");
-    print("if(all[i].src == '"); 
-	header_image();
-	print("')");
-	print("{");
-	print("var mySpan = document.createElement('span');\n");
 	
+	//create code
 	$t = "";
 	if($html==1)
 	{
@@ -254,20 +247,49 @@ function BE_display_banner()
 		$t .= "<param name=allowscriptaccess VALUE=\\\"always\\\">";
 		$t .= "<param name=\\\"quality\\\" value=\\\"high\\\" />";
 		$t .="<!--<![endif]-->";
-		$t .= "<a href=\\\"http://www.adobe.com/go/getflash\\\">";
-		$t .= "<img src=\\\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\\\" alt=\\\"Get Adobe Flash player\\\"/>";
-		$t .= "</a>";
+		//if viewed as admin worpress change the link and the banner is not displayed.
+		if(!is_user_logged_in())
+		{
+			$t .= "<a href=\\\"http://www.adobe.com/go/getflash\\\">";
+			$t .= "<img src=\\\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\\\" alt=\\\"Get Adobe Flash player\\\"/>";
+			$t .= "</a>";
+		}
 		$t .="</object>";
 	}
 	if($html==1)
 	{
 		$t .="</canvas>";
 	}
-	print("mySpan.innerHTML = \"$t\";\n");
-	print("all[i].parentNode.replaceChild(mySpan, all[i]);");
-	print("");
-	print("}");
-	print("}");
+
+	print("<script type=\"text/javascript\">");	
+	if($divid!="")
+	{
+		print("var all = document.getElementsByTagName(\"div\");");
+		print("for (var i=0, max=all.length; i < max; i++) {");
+		print("if(all[i].id == '$divid')"); 
+		print("{");
+		print("var mySpan = document.createElement('span');\n");		
+		print("mySpan.innerHTML = \"$t\";\n");
+		print("all[i].parentNode.replaceChild(mySpan, all[i]);");
+		print("");
+		print("}");
+		print("}");		
+	}	
+	else
+	{
+		print("var all = document.getElementsByTagName(\"img\");");
+		print("for (var i=0, max=all.length; i < max; i++) {");
+		print("if(all[i].src == '"); 
+		header_image();
+		print("')");
+		print("{");
+		print("var mySpan = document.createElement('span');\n");		
+		print("mySpan.innerHTML = \"$t\";\n");
+		print("all[i].parentNode.replaceChild(mySpan, all[i]);");
+		print("");
+		print("}");
+		print("}");		
+	}
 	print("</script>");
 }
 
@@ -290,13 +312,16 @@ function BE_banner_effect_options() {
 	
     // variables for the field and option names 
     $opt_name = 'banner_effect_email';
+	$opt_name2 = 'banner_effect_divid';
 	$be_opt_name = 'banner_effect_banner';
     $hidden_field_name = 'banner_effect_submit_hidden';
     $data_field_name = 'banner_effect_email';
+	$data_field_name2 = 'banner_effect_divid';
 	
 
     // Read in existing option value from database
     $opt_val = get_option( $opt_name );
+	$opt_val2 = get_option( $opt_name2 );
 	$be_current_banner = get_option($be_opt_name);
 
     // See if the user has posted us some information
@@ -304,12 +329,14 @@ function BE_banner_effect_options() {
     if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
         // Read their posted value
         $opt_val = $_POST[ $data_field_name ];
+		$opt_val2 = $_POST[ $data_field_name2 ];
 		$be_current_banner = $_POST[ "group1" ];
 
 		if(BE_check_email($opt_val))
 		{
 			// Save the posted value in the database
 			update_option( $opt_name, $opt_val );
+			update_option( $opt_name2, $opt_val2 );
 			update_option( $be_opt_name,$be_current_banner);
 			
 			if($be_current_banner!=-1)
@@ -362,6 +389,7 @@ function BE_banner_effect_options() {
 			_e('Email is not valid.', 'BannerEffectSettings');
 			print "</strong></p></div>";
 			$opt_val = get_option( $opt_name );
+			$opt_val2 = get_option( $opt_name2 );
 			$be_current_banner = get_option($be_opt_name);
 		}
 		
@@ -401,6 +429,12 @@ Then follow these steps:<br/>
 <th scope="row"><?php _e("Email Address:", 'BannerEffectSettings' ); ?></th><td>
 <input type="text" name="<?php echo $data_field_name; ?>" value="<?php echo $opt_val; ?>" size="40">
 <p class="description">Note: Please provide the email address you used when you uploaded the banners to Banner Effect website (free users) or the email you used when you registered the product.</p>
+</td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e("HTML div ID to replace:", 'BannerEffectSettings' ); ?></th><td>
+<input type="text" name="<?php echo $data_field_name2; ?>" value="<?php echo $opt_val2; ?>" size="40">
+<p class="description">Leave this blank if you want to let the plugin try to replace automatically the banner. If it does not work, please enter the ID of the &lt;div&gt; tag you want to replace. </p>
 </td>
 </tr>
 <?PHP
@@ -546,10 +580,14 @@ return true;
 
 function BE_safecopy($source,$dest)
 {
+	
 	//check if we can open files using url
 	$allow_fopen = ini_get("allow_url_fopen");
 	if($allow_fopen=="1")
 	{
+		//if source  have spaces in it, we replace it by %20
+		$source = str_replace(" ","%20",$source);
+
 		return copy($source,$dest);
 	}
 	else
