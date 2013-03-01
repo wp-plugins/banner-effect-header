@@ -66,6 +66,8 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 3. You can even set a particular banner for each pages/posts.
 
 == Changelog ==
+= 1.2.1 =
+* Javascript code is more robust on old browsers.
 = 1.2.0 =
 * Added an option to replace a div id by the banner.
 * Check if there are spaces in the name of medias and replace it by %20.

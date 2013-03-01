@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.2.0
+Version: 1.2.1
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
@@ -268,7 +268,7 @@ function BE_display_banner()
 	{
 		print("var all = document.getElementsByTagName(\"div\");");
 		print("for (var i=0, max=all.length; i < max; i++) {");
-		print("if(all[i].id == '$divid')"); 
+		print("if((all[i]!=null) && (all[i].id == '$divid'))"); 
 		print("{");
 		print("var mySpan = document.createElement('span');\n");		
 		print("mySpan.innerHTML = \"$t\";\n");
@@ -281,9 +281,9 @@ function BE_display_banner()
 	{
 		print("var all = document.getElementsByTagName(\"img\");");
 		print("for (var i=0, max=all.length; i < max; i++) {");
-		print("if(all[i].src == '"); 
+		print("if((all[i]!=null) && (all[i].src == '"); 
 		header_image();
-		print("')");
+		print("'))");
 		print("{");
 		print("var mySpan = document.createElement('span');\n");		
 		print("mySpan.innerHTML = \"$t\";\n");
