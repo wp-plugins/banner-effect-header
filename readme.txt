@@ -66,6 +66,8 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 3. You can even set a particular banner for each pages/posts.
 
 == Changelog ==
+= 1.2.2 =
+* HTML code is more robust on old browsers.
 = 1.2.1 =
 * Javascript code is more robust on old browsers.
 = 1.2.0 =

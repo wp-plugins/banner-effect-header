@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.2.1
+Version: 1.2.2
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
@@ -243,7 +243,6 @@ function BE_display_banner()
 		$t .= "<param name= \\\"quality\\\" value=\\\"high\\\" />";
 		$t .= "<param name=allowscriptaccess VALUE=\\\"always\\\">";
 		$t .= "<!--[if !IE]>-->";
-		$t .= "</object>";
 		$t .= "<object data=\\\"$p/$n.swf\\\" ";
 		$t .= "type=\\\"application/x-shockwave-flash\\\" width=\\\"$w\\\" height=\\\"$h\\\">";
 		$t .= "<param name=allowscriptaccess VALUE=\\\"always\\\">";
@@ -256,6 +255,9 @@ function BE_display_banner()
 			$t .= "<img src=\\\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\\\" alt=\\\"Get Adobe Flash player\\\"/>";
 			$t .= "</a>";
 		}
+		$t .= "<!--[if !IE]>-->";
+		$t .= "</object>";
+		$t .="<!--<![endif]-->";
 		$t .="</object>";
 	}
 	if($html==1)
