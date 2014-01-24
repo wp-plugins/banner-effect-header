@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.2.3
+Version: 1.2.4
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
@@ -130,7 +130,21 @@ class BE_Banner
 
 function BE_GetBannerArray($mail)
 {
-	$url = "http://www.banner-effect.com/customer_banners/get_banner_list.php?email=".$mail;
+	$banners1 =  BE_GetBannerArrayEx($mail,"http://www.banner-effect.com/customer_banners/");
+	$banners2 =  BE_GetBannerArrayEx($mail,"http://www.mybannereffect.com/customer_banners/");
+	//merge array2
+	$startid= count($banners1);
+	for($i=0;$i<count($banners2);$i++)
+	{
+		$banners2[$i]->id = $banners2[$i]->id + $startid;
+		$banners1[] = $banners2[$i];
+	}
+	return $banners1;
+}
+
+function BE_GetBannerArrayEx($mail,$server)
+{
+	$url = $server."get_banner_list.php?email=".$mail;
 	//check if we can open files using url
 	$allow_fopen = ini_get("allow_url_fopen");
 	if($allow_fopen=="1")
@@ -234,20 +248,14 @@ function BE_display_banner()
 	$t = "";
 	if($html==1)
 	{
-		$t .= ("<canvas id=\\\"$n\\\" onclick=\\\"this.focus();\\\" oncontextmenu=\\\"return false;\\\" width=$w height=$h tabindex=1 style=\\\"outline: none\\\">");
+		$t .= ("<canvas id=\\\"$n\\\" onclick=\\\"this.focus();\\\" oncontextmenu=\\\"return false;\\\" width=$w height=$h  style=\\\"outline: none\\\">");
 	}
 	if($flash==1)
 	{
-		$t .=("<object classid=\\\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\\\" width=\\\"$w\\\" height=\\\"$h\\\" id=\\\"$n\\\">");
+		$t .=("<object type=\\\"application/x-shockwave-flash\\\" width=\\\"$w\\\" height=\\\"$h\\\" data=\\\"$p/$n.swf\\\">");
 		$t .= "<param name=\\\"movie\\\" value=\\\"$p/$n.swf\\\" />";
 		$t .= "<param name= \\\"quality\\\" value=\\\"high\\\" />";
 		$t .= "<param name=allowscriptaccess VALUE=\\\"always\\\">";
-		$t .= "<!--[if !IE]>-->";
-		$t .= "<object data=\\\"$p/$n.swf\\\" ";
-		$t .= "type=\\\"application/x-shockwave-flash\\\" width=\\\"$w\\\" height=\\\"$h\\\">";
-		$t .= "<param name=allowscriptaccess VALUE=\\\"always\\\">";
-		$t .= "<param name=\\\"quality\\\" value=\\\"high\\\" />";
-		$t .="<!--<![endif]-->";
 		//if viewed as admin worpress change the link and the banner is not displayed.
 		if(!is_user_logged_in())
 		{
@@ -255,9 +263,6 @@ function BE_display_banner()
 			$t .= "<img src=\\\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\\\" alt=\\\"Get Adobe Flash player\\\"/>";
 			$t .= "</a>";
 		}
-		$t .= "<!--[if !IE]>-->";
-		$t .= "</object>";
-		$t .="<!--<![endif]-->";
 		$t .="</object>";
 	}
 	if($html==1)
@@ -275,33 +280,34 @@ function BE_display_banner()
 		print("mySpan.innerHTML = \"$t\";\n");
 		print("d.parentNode.replaceChild(mySpan, d);");
 		print("}");
-		
-		/*
-		print("var all = document.getElementsByTagName(\"div\");");
-		print("for (var i=0, max=all.length; i < max; i++) {");
-		print("if((all[i]!=null) && (all[i].id == '$divid'))"); 
-		print("{");
-		print("var mySpan = document.createElement('span');\n");		
-		print("mySpan.innerHTML = \"$t\";\n");
-		print("all[i].parentNode.replaceChild(mySpan, all[i]);");
-		print("");
-		print("}");
-		print("}");		*/
+
 	}	
 	else
 	{
-		print("var all = document.getElementsByTagName(\"img\");");
-		print("for (var i=0, max=all.length; i < max; i++) {");
-		print("if((all[i]!=null) && (all[i].src == '"); 
-		header_image();
-		print("'))");
-		print("{");
-		print("var mySpan = document.createElement('span');\n");		
-		print("mySpan.innerHTML = \"$t\";\n");
-		print("all[i].parentNode.replaceChild(mySpan, all[i]);");
-		print("");
-		print("}");
-		print("}");		
+		if(header_image()!="")
+		{
+			print("var all = document.getElementsByTagName(\"img\");");
+			print("for (var i=0, max=all.length; i < max; i++) {");
+			print("if((all[i]!=null) && (all[i].src == '"); 
+			header_image();
+			print("'))");
+			print("{");
+			print("var mySpan = document.createElement('span');\n");		
+			print("mySpan.innerHTML = \"$t\";\n");
+			print("all[i].parentNode.replaceChild(mySpan, all[i]);");
+			print("");
+			print("}");
+			print("}");		
+		}
+		else
+		{
+			print("var all = document.getElementsByTagName(\"header\");");
+			print("if(all.length>0) {");
+			print("var mySpan = document.createElement('span');\n");		
+			print("mySpan.innerHTML = \"$t\";\n");
+			print("all[0].insertBefore(mySpan, all[0].children[0]);");
+			print("}");	
+		}
 	}
 	print("</script>");
 }
@@ -361,7 +367,7 @@ function BE_banner_effect_options() {
 				if(BE_copy_files($banners[$be_current_banner])===false)
 				{
 					print "<div class=\"error\"><p><strong>";
-					$dir = WP_CONTENT_URL.'/banner-effect-banners/';
+					$dir = WP_CONTENT_URL.'/uploads/banner-effect-banners/';
 					_e('Problem when copying banner files. Check if directory \''.$dir.'\' exists and is writable.', 'BannerEffectSettings');
 					print "</strong></p></div>";
 					$opt_val = get_option( $opt_name );
@@ -369,7 +375,7 @@ function BE_banner_effect_options() {
 				}
 				else
 				{			
-					$dir = WP_CONTENT_URL.'/banner-effect-banners/';
+					$dir = WP_CONTENT_URL.'/uploads/banner-effect-banners/';
 					// Put an settings updated message on the screen
 					print "<div class=\"updated\"><p><strong>";
 					_e('Settings saved and banner copied locally.', 'BannerEffectSettings' );
@@ -490,7 +496,7 @@ Then follow these steps:<br/>
 function BE_copy_files($banner)
 {
 	//check directory
-	$dir = WP_CONTENT_DIR.'/banner-effect-banners/'.$banner->name;
+	$dir = WP_CONTENT_DIR.'/uploads/banner-effect-banners/'.$banner->name;
 	if(!file_exists($dir))
 	{
 			mkdir($dir,0777,true);
