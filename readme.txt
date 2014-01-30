@@ -66,6 +66,8 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 3. You can even set a particular banner for each pages/posts.
 
 == Changelog ==
+= 1.2.5 =
+* Fixed an issue with image banner detection.
 = 1.2.4 =
 * Added a new server check(mybannereffect.com)
 * improved banner HTML code
