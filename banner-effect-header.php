@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.2.5
+Version: 1.2.6
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
