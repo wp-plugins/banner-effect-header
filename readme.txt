@@ -66,6 +66,8 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 3. You can even set a particular banner for each pages/posts.
 
 == Changelog ==
+= 1.2.7 =
+* Fixed a security issue.
 = 1.2.6 =
 * Checked compatibility with Wordpress 4.0.
 * Added an icon.

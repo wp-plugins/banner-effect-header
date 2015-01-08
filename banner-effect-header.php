@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.2.6
+Version: 1.2.7
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
@@ -351,8 +351,8 @@ function BE_banner_effect_options() {
     // If they did, this hidden field will be set to 'Y'
     if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
         // Read their posted value
-        $opt_val = $_POST[ $data_field_name ];
-		$opt_val2 = $_POST[ $data_field_name2 ];
+        $opt_val = sanitize_email($_POST[ $data_field_name ]);
+		$opt_val2 = sanitize_text_field($_POST[ $data_field_name2 ]);
 		$be_current_banner = $_POST[ "group1" ];
 
 		if(BE_check_email($opt_val))
