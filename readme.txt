@@ -67,7 +67,7 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 
 == Changelog ==
 = 1.2.8 =
-* Fixed a security issue. Thanks to Netsparker (https://www.netpsarker.com) for finding this issue.
+* Fixed a security issue. Thanks to Netsparker (https://www.netsparker.com) for finding this issue.
 = 1.2.7 =
 * Fixed a security issue.
 = 1.2.6 =
