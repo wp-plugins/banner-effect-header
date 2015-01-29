@@ -2,7 +2,7 @@
 /*
 Plugin Name: Banner Effect Header
 Plugin URI: http://www.banner-effect.com
-Version: 1.2.7
+Version: 1.2.8
 Description: Banner Effect Header is a plugin to integrate banners made with Banner Effect software on your WordPress site.
 Author: Devsoft
 Author URI: http://www.banner-effect.com
@@ -450,13 +450,13 @@ Then follow these steps:<br/>
 <table class="form-table">
 <tr valign="top">
 <th scope="row"><?php _e("Email Address:", 'BannerEffectSettings' ); ?></th><td>
-<input type="text" name="<?php echo $data_field_name; ?>" value="<?php echo $opt_val; ?>" size="40">
+<input type="text" name="<?php echo $data_field_name; ?>" value="<?php echo esc_js($opt_val); ?>" size="40">
 <p class="description">Note: Please provide the email address you used when you uploaded the banners to Banner Effect website (free users) or the email you used when you registered the product.</p>
 </td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e("HTML div ID to replace:", 'BannerEffectSettings' ); ?></th><td>
-<input type="text" name="<?php echo $data_field_name2; ?>" value="<?php echo $opt_val2; ?>" size="40">
+<input type="text" name="<?php echo $data_field_name2; ?>" value="<?php echo esc_js($opt_val2); ?>" size="40">
 <p class="description">Leave this blank if you want to let the plugin try to replace automatically the banner. If it does not work, please enter the ID of the &lt;div&gt; tag you want to replace. </p>
 </td>
 </tr>

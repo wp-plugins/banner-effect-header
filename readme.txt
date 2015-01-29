@@ -3,7 +3,7 @@ Contributors: banner_effect
 Donate link: http://www.banner-effect.com/download/?utm_source=wp_plugin&utm_medium=plugin&utm_campaign=wordpress
 Tags: header, flash, html5, banner, banner effect, dynamic
 Requires at least: 2.7
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -66,6 +66,8 @@ No, you can use Banner Effect Trial edition to create your banners ( [Banner Eff
 3. You can even set a particular banner for each pages/posts.
 
 == Changelog ==
+= 1.2.8 =
+* Fixed a security issue. Thanks to Netsparker (https://www.netpsarker.com) for finding this issue.
 = 1.2.7 =
 * Fixed a security issue.
 = 1.2.6 =
